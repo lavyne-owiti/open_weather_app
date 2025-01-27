@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:new_weather_app/feature/weather/presentation/screens/weather_screen.dart';
 
-void main() {
-  // Hive.initFlutter();
-  // Hive.registerAdapter(WeatherAdapter());
+import 'feature/weather/data/models/weather_model.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(WeatherModelAdapter());
   runApp(const ProviderScope(child: MyApp()) );
 }
 

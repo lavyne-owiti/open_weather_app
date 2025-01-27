@@ -1,20 +1,43 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../domain/entities/weather.dart';
 
+part 'weather_model.g.dart';
+
+@HiveType(typeId: 0)
 class WeatherModel extends WeatherEntity {
+
+   @HiveField(0)
+  final String cityName;
+
+  @HiveField(1)
+  final double temperature;
+
+  @HiveField(2)
+  final String weatherDescription;
+
+  @HiveField(3)
+  final double windSpeed;
+
+  @HiveField(4)
+  final int humidity;
+
+  @HiveField(5)
+  final DateTime date;
+
   WeatherModel({
-    required String cityName,
-    required double temperature,
-    required String weatherDescription,
-    required double windSpeed,
-    required int humidity,
-    required DateTime date,
+    required this.cityName,
+    required this.temperature,
+    required this.weatherDescription,
+    required this.windSpeed,
+    required this. humidity,
+    required this. date,
   }) : super(
           cityName: cityName,
           temperature: temperature,
           weatherDescription: weatherDescription,
           windSpeed: windSpeed,
           humidity: humidity,
-          date: date,
+          date: date, 
         );
 
   // WeatherModel from JSON data
@@ -46,4 +69,10 @@ class WeatherModel extends WeatherEntity {
       'dt': date.millisecondsSinceEpoch ~/ 1000,
     };
   }
+
+ 
 }
+
+
+ 
+

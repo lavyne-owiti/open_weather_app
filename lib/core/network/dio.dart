@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_weather_app/core/utils/constants.dart';
 
 
@@ -21,3 +22,8 @@ class DioClient {
     }
   }
 }
+
+final dioClientProvider = Provider<DioClient>((ref) {
+  return DioClient();
+});
+

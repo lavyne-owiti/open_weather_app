@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_weather_app/feature/weather/presentation/widgets/forecast_list_widget.dart';
 import 'package:new_weather_app/feature/weather/presentation/widgets/weather_card_widget.dart';
 
-class WeatherHomeScreen extends StatelessWidget {
-  const WeatherHomeScreen({super.key});
+class WeatherHomeScreen extends ConsumerWidget {
+  const WeatherHomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-     final  forecastData = [
-      {'day': 'Mon', 'temperature': '22°C'},
-      {'day': 'Tue', 'temperature': '23°C'},
-      {'day': 'Wed', 'temperature': '21°C'},
-      {'day': 'Thu', 'temperature': '25°C'},
-      {'day': 'Fri', 'temperature': '20°C'},
-    ];
+  Widget build(BuildContext context, ScopedReader watch) {
+    
+   final weatherState  = watch(weatherProvider);
     
     return Scaffold(
       appBar: AppBar(

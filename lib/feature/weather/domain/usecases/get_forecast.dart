@@ -5,17 +5,17 @@ import 'package:new_weather_app/feature/weather/domain/entities/weather.dart';
 import '../../../../core/error/failiures.dart';
 import '../repositories/weather_repo.dart';
 
-class GetCurrentWeatherUseCase {
+class GetForecastUseCase {
   final WeatherRepository weatherRepository;
 
-  GetCurrentWeatherUseCase({required this.weatherRepository});
+  GetForecastUseCase({required this.weatherRepository});
 
-  Future<Either<Failure, WeatherEntity>> execute(String cityName) async {
-    return await weatherRepository.getCurrentWeather(cityName);
+  Future<Either<Failure, List<WeatherEntity>>> execute(String cityName) async {
+    return await weatherRepository.getForecast(cityName);
   }
 }
 
-final getCurrentWeatherUseCaseProvider = Provider<GetCurrentWeatherUseCase>((ref) {
+final getForecastUseCaseProvider = Provider<GetForecastUseCase>((ref) {
   final weatherRepository = ref.watch(weatherRepositoryProvider);
-  return GetCurrentWeatherUseCase(weatherRepository: weatherRepository);
+  return GetForecastUseCase(weatherRepository: weatherRepository);
 });

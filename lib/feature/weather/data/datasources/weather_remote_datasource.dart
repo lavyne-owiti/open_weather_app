@@ -1,6 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_weather_app/feature/weather/domain/entities/weather.dart';
 
-import '../../../../core/dio/dio.dart';
+import '../../../../core/network/dio.dart';
 import '../../../../core/utils/constants.dart';
 import '../models/weather_model.dart';
 
@@ -9,7 +10,7 @@ class WeatherRemoteDataSource {
 
   WeatherRemoteDataSource({required this.dioClient});
 
-  Future<Map<String, dynamic>> getCurrentWeather(String city) async {
+  Future<WeatherModel> getCurrentWeather(String city) async {
     try {
       final response = await dioClient.get(
         "weather",
@@ -19,7 +20,7 @@ class WeatherRemoteDataSource {
           'units': 'metric',
         },
       );
-      return response.data;
+      return WeatherModel.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to load current weather data $e');
     }
@@ -27,7 +28,7 @@ class WeatherRemoteDataSource {
 
 
 
-  Future<List> getForecast(String city) async {
+  Future<List<WeatherEntity>> getForecast(String city) async {
     try {
       final response = await dioClient.get(
         "forecast",
@@ -46,3 +47,12 @@ class WeatherRemoteDataSource {
     }
   }
 }
+
+
+
+// 2. WeatherRemoteDataSource provider
+final weatherRemoteDataSourceProvider = Provider<WeatherRemoteDataSource>((ref) {
+  final dioClient = ref.read(dioClientProvider);
+  return WeatherRemoteDataSource(dioClient: dioClient);
+});
+
