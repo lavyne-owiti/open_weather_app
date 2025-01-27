@@ -16,7 +16,7 @@ class WeatherRemoteDataSource {
         "weather",
         queryParameters: {
           'q': city,
-          'appid': Constants.apiKey,
+          'appid': Constants().apiKey,
           'units': 'metric',
         },
       );
@@ -34,7 +34,7 @@ class WeatherRemoteDataSource {
         "forecast",
         queryParameters: {
           'q': city,
-          'appid': Constants.apiKey,
+          'appid': Constants().apiKey,
           'units': 'metric', 
         },
       );
