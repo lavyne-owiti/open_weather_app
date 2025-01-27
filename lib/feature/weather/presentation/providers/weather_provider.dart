@@ -40,7 +40,7 @@ class WeatherNotifier extends StateNotifier<WeatherState> {
 }
 
 final weatherNotifierProvider = StateNotifierProvider<WeatherNotifier, WeatherState>(
-  (ref) {
+  (ref ) {
     final getCurrentWeatherUseCase = ref.watch(getCurrentWeatherUseCaseProvider);
     final getForecastUseCase = ref.watch(getForecastUseCaseProvider);
     return WeatherNotifier(
@@ -49,3 +49,5 @@ final weatherNotifierProvider = StateNotifierProvider<WeatherNotifier, WeatherSt
     );
   }
 );
+
+

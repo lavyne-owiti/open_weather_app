@@ -61,7 +61,11 @@ class WeatherLocalDataSource {
 
 }
 
-
 final weatherLocalDataSourceProvider = Provider<WeatherLocalDataSource>((ref) {
-  return WeatherLocalDataSource(weatherBox: ); 
+  final weatherBox = ref.watch(weatherBoxProvider);
+  return WeatherLocalDataSource(weatherBox: weatherBox ); 
 }); 
+
+final weatherBoxProvider = Provider<Box<WeatherModel>>((ref) {
+  return Hive.box<WeatherModel>('weatherBox');
+});
