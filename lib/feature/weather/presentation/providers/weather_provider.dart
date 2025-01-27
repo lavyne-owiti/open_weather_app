@@ -3,49 +3,57 @@ import 'package:new_weather_app/feature/weather/domain/usecases/get_forecast.dar
 import 'package:new_weather_app/feature/weather/presentation/providers/weather_state.dart';
 import '../../domain/usecases/get_weather.dart';
 
-class WeatherNotifier extends StateNotifier<WeatherState> {
+class WeatherNotifier extends StateNotifier<AsyncValue<WeatherState>> {
   final GetCurrentWeatherUseCase getCurrentWeatherUseCase;
   final GetForecastUseCase getForecastUseCase;
+  final String cityName;
 
   WeatherNotifier({
     required this.getCurrentWeatherUseCase,
     required this.getForecastUseCase,
-  }) : super(WeatherState());
+    required this.cityName,
+  }) : super(const AsyncValue.loading()) {
+    fetchCurrentWeather(cityName);
+    // fetchForecast(cityName);
+  }
 
   Future<void> fetchCurrentWeather(String cityName) async {
-    state = state.copyWith(isLoading: true);
+    state = const AsyncValue.loading();
     final result = await getCurrentWeatherUseCase.execute(cityName);
-    result.fold(
+    result.fold( 
       (failure) {
-        state = state.copyWith(isLoading: false, errorMessage: failure.message);
+        state = AsyncValue.error( failure, StackTrace.current);
       },
       (weather) {
-        state = state.copyWith(isLoading: false, currentWeather: weather);
+        state = AsyncValue.data( weather );
       },
     );
   }
 
   Future<void> fetchForecast(String cityName) async {
-    state = state.copyWith(isLoading: true);
+    state =const AsyncValue.loading();
     final result = await getForecastUseCase.execute(cityName);
     result.fold(
       (failure) {
-        state = state.copyWith(isLoading: false, errorMessage: failure.message);
+        state = AsyncValue.error( failure, StackTrace.current);
       },
       (forecast) {
-        state = state.copyWith(isLoading: false, forecast: forecast);
+        state = AsyncValue.data( forecast);
       },
     );
   }
 }
-
-final weatherNotifierProvider = StateNotifierProvider<WeatherNotifier, WeatherState>(
+final cityNameProvider = StateProvider<String>((ref) => ''); 
+final weatherNotifierProvider = StateNotifierProvider<WeatherNotifier,AsyncValue <WeatherState>>(
   (ref ) {
     final getCurrentWeatherUseCase = ref.watch(getCurrentWeatherUseCaseProvider);
     final getForecastUseCase = ref.watch(getForecastUseCaseProvider);
+    final cityName = ref.watch(cityNameProvider);
+    //    var cityName;
     return WeatherNotifier(
       getCurrentWeatherUseCase: getCurrentWeatherUseCase,
       getForecastUseCase: getForecastUseCase,
+      cityName: cityName ,
     );
   }
 );

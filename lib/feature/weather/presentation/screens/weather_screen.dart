@@ -40,7 +40,7 @@ class _WeatherHomeScreenState extends ConsumerState<WeatherHomeScreen> {
               ),
               onSubmitted: (text) {
                 if (text.isNotEmpty) {
-                  // ref.read(weatherNotifierProvider.notifier).fetchWeather(text);
+                  ref.read(weatherNotifierProvider.notifier).fetchCurrentWeather(_cityName);
                 }
               },
             ),
