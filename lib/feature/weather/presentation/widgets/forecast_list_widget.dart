@@ -21,8 +21,8 @@ class ForecastListWidget extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Icon(
-                    FontAwesomeIcons.cloudRain, // Replace with dynamic icon
+                 const  Icon(
+                    FontAwesomeIcons.cloudRain, 
                     color: Colors.blue,
                   ),
                   Text(forecast['day']!),

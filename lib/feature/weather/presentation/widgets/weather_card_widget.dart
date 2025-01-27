@@ -22,8 +22,8 @@ class WeatherCardWidget extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Icon(
-              FontAwesomeIcons.sun, // Replace with dynamic weather icon later
+           const Icon(
+              FontAwesomeIcons.sun,
               size: 50,
               color: Colors.orange,
             ),

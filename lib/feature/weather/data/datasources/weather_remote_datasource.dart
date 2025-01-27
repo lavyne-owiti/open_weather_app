@@ -1,5 +1,8 @@
-import '../../../../core/network/dio.dart';
+import 'package:new_weather_app/feature/weather/domain/entities/weather.dart';
+
+import '../../../../core/dio/dio.dart';
 import '../../../../core/utils/constants.dart';
+import '../models/weather_model.dart';
 
 class WeatherRemoteDataSource {
   final DioClient dioClient;
@@ -13,28 +16,33 @@ class WeatherRemoteDataSource {
         queryParameters: {
           'q': city,
           'appid': Constants.apiKey,
-          'units': 'metric', // For Celsius
+          'units': 'metric',
         },
       );
       return response.data;
     } catch (e) {
-      throw Exception('Failed to load weather data');
+      throw Exception('Failed to load current weather data $e');
     }
   }
 
-  Future<Map<String, dynamic>> getForecast(String city) async {
+
+
+  Future<List> getForecast(String city) async {
     try {
       final response = await dioClient.get(
         "forecast",
         queryParameters: {
           'q': city,
           'appid': Constants.apiKey,
-          'units': 'metric', // For Celsius
+          'units': 'metric', 
         },
       );
-      return response.data;
+      List <WeatherEntity> forecast = (response.data['list'] as List)
+      .map((e) => WeatherModel.fromJson(e)).toList();
+
+      return forecast;
     } catch (e) {
-      throw Exception('Failed to load forecast data');
+      throw Exception('Failed to load forecast data $e');
     }
   }
 }
